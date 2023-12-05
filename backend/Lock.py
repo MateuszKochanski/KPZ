@@ -8,10 +8,10 @@ class Lock:
         self.room_num = room_number 
         self.access_lvl = access_level
         self.rfid_reader = SimpleMFRC522()
-        self.db_conn = MySQLConn.connector(
+        self.db_conn = MySQLConn.connect(
             host="localhost",
-            user="smartlock",
-            password="",
+            user="smartlock1",
+            password="lock1",
             database="hol9000db"
         )
         self.currently_inside_list = []      # list of people currently inside the room

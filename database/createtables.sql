@@ -8,19 +8,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema hol9000db
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema hol9000db
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `hol9000db` DEFAULT CHARACTER SET utf8 ;
+USE `hol9000db` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`Pomieszczenia`
+-- Table `hol9000db`.`Pomieszczenia`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Pomieszczenia` (
+CREATE TABLE IF NOT EXISTS `hol9000db`.`Pomieszczenia` (
   `idPomieszczenia` INT NOT NULL,
   `numerPomieszczenia` VARCHAR(45) NOT NULL,
   `pietro` INT NOT NULL,
@@ -32,9 +32,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Pracownik`
+-- Table `hol9000db`.`Pracownik`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Pracownik` (
+CREATE TABLE IF NOT EXISTS `hol9000db`.`Pracownik` (
   `idPracownik` INT NOT NULL,
   `Imie` VARCHAR(45) NULL,
   `Nazwisko` VARCHAR(45) NULL,
@@ -45,9 +45,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Konsultacja`
+-- Table `hol9000db`.`Konsultacja`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Konsultacja` (
+CREATE TABLE IF NOT EXISTS `hol9000db`.`Konsultacja` (
   `idKonsultacja` INT NOT NULL,
   `dzienTygodnia` INT NOT NULL,
   `godzinaRozpoczecia` TIMESTAMP NOT NULL,
@@ -61,9 +61,9 @@ ENGINE = FEDERATED;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Pracownik_ma_dostep_do_Pomieszczenia`
+-- Table `hol9000db`.`Pracownik_ma_dostep_do_Pomieszczenia`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Pracownik_ma_dostep_do_Pomieszczenia` (
+CREATE TABLE IF NOT EXISTS `hol9000db`.`Pracownik_ma_dostep_do_Pomieszczenia` (
   `Pracownik_idPracownik` INT NOT NULL,
   `Pracownik_Konsultacja_idKonsultacja` INT NOT NULL,
   `Pomieszczenia_idPomieszczenia` INT NOT NULL,
@@ -72,21 +72,21 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Pracownik_ma_dostep_do_Pomieszczenia` (
   INDEX `fk_Pracownik_has_Pomieszczenia_Pracownik1_idx` (`Pracownik_idPracownik` ASC, `Pracownik_Konsultacja_idKonsultacja` ASC) VISIBLE,
   CONSTRAINT `fk_Pracownik_has_Pomieszczenia_Pracownik1`
     FOREIGN KEY (`Pracownik_idPracownik`)
-    REFERENCES `mydb`.`Pracownik` (`idPracownik`)
+    REFERENCES `hol9000db`.`Pracownik` (`idPracownik`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Pracownik_has_Pomieszczenia_Pomieszczenia1`
     FOREIGN KEY (`Pomieszczenia_idPomieszczenia`)
-    REFERENCES `mydb`.`Pomieszczenia` (`idPomieszczenia`)
+    REFERENCES `hol9000db`.`Pomieszczenia` (`idPomieszczenia`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Student`
+-- Table `hol9000db`.`Student`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Student` (
+CREATE TABLE IF NOT EXISTS `hol9000db`.`Student` (
   `idStudent` INT NOT NULL,
   `nrIndeksu` INT NULL,
   `kodKreskowyLegitymacji` INT NULL,
@@ -97,9 +97,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Zajęcia`
+-- Table `hol9000db`.`Zajęcia`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Zajęcia` (
+CREATE TABLE IF NOT EXISTS `hol9000db`.`Zajęcia` (
   `idZajęcia` INT NOT NULL,
   `NazwaPrzedmiotu` VARCHAR(45) NULL,
   `TypZajec` VARCHAR(45) NULL COMMENT 'wykład/lab/proj\n',
@@ -113,21 +113,21 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Zajęcia` (
   INDEX `fk_Zajęcia_Student1_idx` (`Student_idStudent` ASC) VISIBLE,
   CONSTRAINT `fk_Zajęcia_Pomieszczenia1`
     FOREIGN KEY (`Pomieszczenia_idPomieszczenia`)
-    REFERENCES `mydb`.`Pomieszczenia` (`idPomieszczenia`)
+    REFERENCES `hol9000db`.`Pomieszczenia` (`idPomieszczenia`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Zajęcia_Student1`
     FOREIGN KEY (`Student_idStudent`)
-    REFERENCES `mydb`.`Student` (`idStudent`)
+    REFERENCES `hol9000db`.`Student` (`idStudent`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Pracownik_odwiedzil_Pomieszczenia`
+-- Table `hol9000db`.`Pracownik_odwiedzil_Pomieszczenia`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Pracownik_odwiedzil_Pomieszczenia` (
+CREATE TABLE IF NOT EXISTS `hol9000db`.`Pracownik_odwiedzil_Pomieszczenia` (
   `Pracownik_idPracownik` INT NOT NULL,
   `Pomieszczenia_idPomieszczenia` INT NOT NULL,
   `kiedyUzylTuKarty` TIMESTAMP NULL COMMENT 'format danych czasowych wszedzie do rozkminienia\n',
@@ -136,21 +136,21 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Pracownik_odwiedzil_Pomieszczenia` (
   INDEX `fk_Pracownik_has_Pomieszczenia_Pracownik2_idx` (`Pracownik_idPracownik` ASC) VISIBLE,
   CONSTRAINT `fk_Pracownik_has_Pomieszczenia_Pracownik2`
     FOREIGN KEY (`Pracownik_idPracownik`)
-    REFERENCES `mydb`.`Pracownik` (`idPracownik`)
+    REFERENCES `hol9000db`.`Pracownik` (`idPracownik`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Pracownik_has_Pomieszczenia_Pomieszczenia2`
     FOREIGN KEY (`Pomieszczenia_idPomieszczenia`)
-    REFERENCES `mydb`.`Pomieszczenia` (`idPomieszczenia`)
+    REFERENCES `hol9000db`.`Pomieszczenia` (`idPomieszczenia`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Pracownik_has_Zajęcia`
+-- Table `hol9000db`.`Pracownik_has_Zajęcia`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Pracownik_has_Zajęcia` (
+CREATE TABLE IF NOT EXISTS `hol9000db`.`Pracownik_has_Zajęcia` (
   `Pracownik_idPracownik` INT NOT NULL,
   `Zajęcia_idZajęcia` INT NOT NULL,
   `Zajęcia_Pomieszczenia_idPomieszczenia` INT NOT NULL,
@@ -159,12 +159,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Pracownik_has_Zajęcia` (
   INDEX `fk_Pracownik_has_Zajęcia_Pracownik1_idx` (`Pracownik_idPracownik` ASC) VISIBLE,
   CONSTRAINT `fk_Pracownik_has_Zajęcia_Pracownik1`
     FOREIGN KEY (`Pracownik_idPracownik`)
-    REFERENCES `mydb`.`Pracownik` (`idPracownik`)
+    REFERENCES `hol9000db`.`Pracownik` (`idPracownik`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Pracownik_has_Zajęcia_Zajęcia1`
     FOREIGN KEY (`Zajęcia_idZajęcia` , `Zajęcia_Pomieszczenia_idPomieszczenia`)
-    REFERENCES `mydb`.`Zajęcia` (`idZajęcia` , `Pomieszczenia_idPomieszczenia`)
+    REFERENCES `hol9000db`.`Zajęcia` (`idZajęcia` , `Pomieszczenia_idPomieszczenia`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
