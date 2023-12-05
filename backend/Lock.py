@@ -1,11 +1,12 @@
-from time import sleep
+from time import sleep, time
+import datetime
 import sys
 from mfrc5222 import SimpleMFRC522
 import mysql.connector as MySQLConn
 
 class Lock:
-    def __init__(self, room_number, access_level):
-        self.room_num = room_number 
+    def __init__(self, room_id, access_level):
+        self.room_id = room_id
         self.access_lvl = access_level
         self.rfid_reader = SimpleMFRC522()
         self.db_conn = MySQLConn.connect(
@@ -45,7 +46,10 @@ class Lock:
 
     # method for checking in database if user can access this room
     def _is_accessible(self, user_id):
-        pass
+        self.db_conn.execute(f"SELECT COUNT(1) FROM Pracownik_ma_dostep_do_Pomieszczenia\
+        WHERE Pomieszczenia_idPomieszczenia={self.room_id} AND Pracownik_idPracownik={user_id}")
+        result = self.db_conn.fetchall()
+        return result[1] == "1"
 
     # checks if user already scanned the card (if scanned then the second scan means that he wants to close the room)
     def _was_scanned(self, user_id):
@@ -61,7 +65,10 @@ class Lock:
 
     # notifies databse that user entered the room
     def _entered_room(self, user_id):
-        pass
+        ts = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        self.db_conn.execute(f"INSERT INTO Pracownik_odwiedzil_Pomieszczenia \
+        (Pracownik_idPracownik, Pomieszczenia_idPomieszczenia, kiedyUzylTuKarty)\
+        VALUES ({user_id}, {self.room_id}, {ts})")
 
     # notifies database that user left the room
     def _left_room(self, user_id):
