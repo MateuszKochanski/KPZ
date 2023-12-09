@@ -29,6 +29,7 @@ class Lock:
     def activate(self):
         try:
             while True:
+                print("Place rfid card")            #----------- DEBUG
                 id, data = self.rfid_reader.read()
                 card_id = data.replace(" ", "")
                 if self._is_accessible(card_id):        # if user can access this room
@@ -50,7 +51,7 @@ class Lock:
                     self.light_red()
                     print("You lack priviledges to access this room")
 
-                time.sleep(20)
+                time.sleep(2)
                 self.turn_off_LED()
         except KeyboardInterrupt:
             GPIO.cleanup()
@@ -116,7 +117,9 @@ class Lock:
         self.db_conn.execute(f"INSERT INTO Pracownik_odwiedzil_Pomieszczenia \
         (Pracownik_idPracownik, Pomieszczenia_idPomieszczenia, kiedyUzylTuKarty)\
         VALUES ({user_id}, {self.room_id}, '{ts}')")
-        print("timestamp inserted")
+        self.db_connection.commit()     # commit data to database (data will be written)
+
+        print("timestamp inserted")     #------------- DEBUG
 
     # GPIO pin setup for RGB LED
     def setup_GPIO(self, redPin, greenPin, bluePin):
